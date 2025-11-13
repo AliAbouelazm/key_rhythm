@@ -86,7 +86,9 @@ This app is designed with privacy in mind:
 
 ## Generating Statistics for Website
 
-To generate a JSON file with typing statistics for your portfolio website:
+### Manual Method
+
+To generate a JSON file with typing statistics:
 
 ```bash
 python -m src.generate_stats
@@ -98,7 +100,21 @@ This creates `typing_stats.json` in the project root with:
 - Burst patterns
 - Summary statistics
 
-You can then copy this file to your website repository for integration.
+### Automated Method
+
+**Option 1: Copy only (you commit manually)**
+```bash
+./scripts/update_website.sh
+```
+This generates stats and copies to your website repo, but you commit/push manually.
+
+**Option 2: Fully automated (auto-commit & push)**
+```bash
+./scripts/update_website_auto.sh
+```
+This generates stats, copies to website repo, commits, and pushes automatically.
+
+The scripts assume your website repo is at `~/Desktop/website`. You can edit the scripts to change this path.
 
 ## Future Enhancements
 
