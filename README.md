@@ -46,6 +46,42 @@ Or use the convenience script:
 ./scripts/run_listener.sh
 ```
 
+### 5. Verify It's Working
+
+To check if the listener is running and see recent data:
+
+```bash
+./scripts/check_status.sh
+```
+
+Or manually check:
+- Look for CSV files in `data/raw/keystrokes_YYYY-MM-DD.csv`
+- Type a few keys, wait 60 seconds, then check the file
+
+### 6. Auto-Start on Login
+
+To make the listener start automatically when you log in:
+
+```bash
+./scripts/setup_launchd.sh
+```
+
+This will:
+- Set up a launchd service
+- Start the listener automatically on login
+- Keep it running in the background
+
+To stop auto-start:
+```bash
+launchctl unload ~/Library/LaunchAgents/com.aliabouelazm.typing-rhythm.plist
+```
+
+To manually start/stop:
+```bash
+launchctl start com.aliabouelazm.typing-rhythm
+launchctl stop com.aliabouelazm.typing-rhythm
+```
+
 ## Data Format
 
 The app logs keystroke events to CSV files in `data/raw/` with the following columns:
