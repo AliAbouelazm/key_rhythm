@@ -7,9 +7,8 @@
     
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/aliabouelazm/Desktop/projects/typing-rhythm-tracker/venv/bin/python</string>
-        <string>-m</string>
-        <string>src.listener</string>
+        <string>/bin/bash</string>
+        <string>/Users/aliabouelazm/Desktop/projects/typing-rhythm-tracker/run_listener.sh</string>
     </array>
     
     <key>WorkingDirectory</key>
