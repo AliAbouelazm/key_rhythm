@@ -7,7 +7,6 @@ import csv
 import time
 from datetime import datetime
 from pathlib import Path
-from queue import Queue
 from threading import Thread, Event
 from typing import Optional
 
@@ -25,7 +24,6 @@ class TypingRhythmListener:
     """Lightweight keystroke timing tracker."""
     
     def __init__(self):
-        self.event_queue = Queue()
         self.buffer = []
         self.last_key_time: Optional[float] = None
         self.listener: Optional[keyboard.Listener] = None
@@ -34,38 +32,35 @@ class TypingRhythmListener:
         self.current_date = datetime.now().date()
         self.current_file: Optional[Path] = None
         
+        # Optimized key mapping for faster lookups
+        self._key_map = {
+            keyboard.Key.space: "space",
+            keyboard.Key.enter: "enter",
+            keyboard.Key.backspace: "backspace",
+            keyboard.Key.tab: "tab",
+            keyboard.Key.shift: "shift",
+            keyboard.Key.ctrl: "ctrl",
+            keyboard.Key.cmd: "cmd",
+            keyboard.Key.alt: "alt",
+            keyboard.Key.esc: "esc",
+            keyboard.Key.delete: "delete",
+        }
+        
     def _get_key_name(self, key) -> str:
-        """Convert pynput key to string representation."""
+        """Convert pynput key to string representation (optimized)."""
+        # Fast dictionary lookup for special keys
+        if key in self._key_map:
+            return self._key_map[key]
+        
+        # Regular character keys
         try:
-            # Special keys
-            if key == keyboard.Key.space:
-                return "space"
-            elif key == keyboard.Key.enter:
-                return "enter"
-            elif key == keyboard.Key.backspace:
-                return "backspace"
-            elif key == keyboard.Key.tab:
-                return "tab"
-            elif key == keyboard.Key.shift:
-                return "shift"
-            elif key == keyboard.Key.ctrl:
-                return "ctrl"
-            elif key == keyboard.Key.cmd:
-                return "cmd"
-            elif key == keyboard.Key.alt:
-                return "alt"
-            elif key == keyboard.Key.esc:
-                return "esc"
-            elif key == keyboard.Key.delete:
-                return "delete"
-            elif hasattr(key, 'char') and key.char:
-                # Regular character
+            if hasattr(key, 'char') and key.char:
                 return key.char.lower()
-            else:
-                # Unknown key
-                return f"key_{key}"
-        except AttributeError:
-            return f"key_{key}"
+        except (AttributeError, TypeError):
+            pass
+        
+        # Fallback for unknown keys (minimal string operations)
+        return f"key_{id(key)}"
     
     def _on_press(self, key):
         """Handle key press event."""
