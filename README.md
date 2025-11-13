@@ -84,11 +84,25 @@ This app is designed with privacy in mind:
 - **Local storage only**: All data stays on your machine
 - **Open source**: You can review all code
 
+## Generating Statistics for Website
+
+To generate a JSON file with typing statistics for your portfolio website:
+
+```bash
+python -m src.generate_stats
+```
+
+This creates `typing_stats.json` in the project root with:
+- WPM over time
+- Keystroke timing distribution
+- Burst patterns
+- Summary statistics
+
+You can then copy this file to your website repository for integration.
+
 ## Future Enhancements
 
 - Feature engineering for typing patterns
-- WPM calculation
-- Burst pattern detection
 - Visualization tools
-- Data export for portfolio integration
+- Automated data sync with website
 
